@@ -1,22 +1,19 @@
 import copy
 
-from digExtractor.extractor import Extractor
 import classify_extractions
 
-class DigExtractionsClassifier(Extractor):
+class DigExtractionsClassifier():
 
     def __init__(self, model, classification_field, embedding):
         self.renamed_input_fields = 'tokens'
         self.classification_field = classification_field
         self.model = model
         self.embedding = embedding
-        self.metadata = {"extractor": "DigExtractionsClassifier"}
+        self.metadata = {"classifier": "DigExtractionsClassifier"}
         self.extractor = classify_extractions.ClassifyExtractions(self.model, self.classification_field, self.embedding)
 
-    def extract(self, doc):
-        if 'tokens' in doc:
-            tokens = doc["tokens"]
-            tokens_with_probabilities = self.extractor.classify(tokens)
+    def classify(self, tokens):
+        tokens_with_probabilities = self.extractor.classify(tokens)
         return tokens_with_probabilities
 
     def get_metadata(self):

@@ -2,6 +2,7 @@ import codecs
 import json
 import os
 import sys
+import numpy as np
 from nltk.tokenize import sent_tokenize, word_tokenize
 
 from digExtractor.extractor import Extractor
@@ -66,7 +67,7 @@ def get_length_of_extraction(semantic_type):
         length = 1
     return length
 
-def get_context(self, tokens, index, length, context_range, use_word_in_context):
+def get_context(tokens, index, length, context_range, use_word_in_context):
     token = tokens[index]
     extraction_starting = index
     extraction_ending = index + length - 1
@@ -94,7 +95,7 @@ def get_vector_of_context(context, embeddings):
         if not context_vector:
             context_vector = current_vector
         else:
-            context_vector = map(add, context_vector, current_vector)
+            context_vector = map(lambda x, y : x+y, context_vector, current_vector)
     
     if(context_vector):
         return np.array(context_vector)
